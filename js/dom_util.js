@@ -18,6 +18,8 @@ const itemTemplate = ({ id, title, age, desc }) => `
 
 
 export const clearInputs = () => {
+  localStorage.clear();
+
   titleInput.value = "";
 
   ageInput.value = "";
@@ -25,7 +27,7 @@ export const clearInputs = () => {
   descriptionInput.value = "";
 };
 
-export const addItemToPage = ({id, title, age, desc }) => {
+export const addItemToPage = ({ id, title, age, desc }) => {
   itemsContainer.insertAdjacentHTML(
     "afterbegin",
     itemTemplate({ id, title, age, desc })
@@ -42,9 +44,19 @@ export const renderItemsList = (items) => {
 
 
 export const getInputValues = () => {
+  if (!titleInput.value || !ageInput.value || !descriptionInput.value) {
+    alert("YOU MUST FILL ALL THE INPUTS");
+    return null;
+  }
+
+  if (+ageInput.value > 20 || +ageInput < 0){
+    alert("Invalid cat age");
+    return null;
+  }
+
   return {
     title: titleInput.value,
     age: ageInput.value,
     desc: descriptionInput.value,
   };
-};
+};  

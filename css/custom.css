@@ -27,3 +27,22 @@
 .delete-section__icon {
   width: 40px;
 }
+
+.links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.links a {
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none; /* no underline */
+}
+
+.link {
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none; /* no underline */
+}

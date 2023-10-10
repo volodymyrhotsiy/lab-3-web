@@ -5,49 +5,43 @@ import {
   getInputValues,
 } from "./dom_util.js";
 
-
-const submitButton = document.getElementById("submit_button");
-const clearButton = document.getElementById("clear_button")
-const findButton = document.getElementById("find_button");
-const cancelFindButton = document.getElementById("cancel_find_button");
-const findInput = document.getElementById("find_input");
+const removeInput = document.getElementById("remove_input"); 
+const removeButton = document.getElementById("remove_button");
 const sortButton = document.getElementById("sort_button")
 const countButton = document.getElementById("count_button")
 const countInput = document.getElementById("count_input")
-const removeInput = document.getElementById("remove_input")
-const removeButton = document.getElementById("remove_button")
+const findButton = document.getElementById("find_button");
+const cancelFindButton = document.getElementById("cancel_find_button");
+const findInput = document.getElementById("find_input");
+
 
 let cats = [];
 
-const addItem = ({ title, age, desc }) => {
-  const generatedId = uuid.v1();
+document.addEventListener("DOMContentLoaded", () => {
+  loadCatsFromLocalStorage();
+});
 
-  const newItem = {
-    id: generatedId,
-    title,
-    age,
-    desc,
-  };
-
-  cats.push(newItem);
-
-  addItemToPage(newItem);
+const loadCatsFromLocalStorage = () => {
+  const savedCats = localStorage.getItem("cats");
+  if (savedCats) {
+    cats = JSON.parse(savedCats);
+    renderItemsList(cats);
+  }
 };
 
 
-submitButton.addEventListener("click", (event) => {
-  event.preventDefault();
+removeButton.addEventListener("click", () => {
+  const cats1 = cats.filter((cat) => cat.title.search(removeInput.value) === -1);
 
-  const { title, age, desc } = getInputValues();
+  cats = cats1;
 
-  clearInputs();
+  localStorage.setItem("cats", JSON.stringify(cats));
 
-  addItem({
-    title, 
-    age,
-    desc: desc,
-  });
+  removeInput.value = "";
+
+  renderItemsList(cats);
 });
+
 
 findButton.addEventListener("click", () => {
   const foundCats = cats.filter(cats => cats.title.search(findInput.value) !== -1);
@@ -56,12 +50,6 @@ findButton.addEventListener("click", () => {
 
   findInput.value = "";
 });
-
-clearButton.addEventListener("click", () => {
-  cats = [];  
-
-  renderItemsList(cats);
-})
 
 cancelFindButton.addEventListener("click", () => {
   renderItemsList(cats);
@@ -89,14 +77,7 @@ countButton.addEventListener("click", () => {
   countInput.value = "";
 });
 
-removeButton.addEventListener("click", () => {
-  const cats1 = cats.filter(cat => cat.title.search(removeInput.value) === -1);
 
-  cats = cats1;
-
-  removeInput.value = "";
-
-  renderItemsList(cats);
-})
+window.addEventListener("load", loadCatsFromLocalStorage);
 
 renderItemsList(cats);
