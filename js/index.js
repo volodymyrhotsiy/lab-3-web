@@ -1,9 +1,7 @@
 import {
-  addItemToPage,
-  clearInputs,
   renderItemsList,
-  getInputValues,
 } from "./dom_util.js";
+import { getAllCats,  deleteCat } from "./api.js";
 
 const removeInput = document.getElementById("remove_input"); 
 const removeButton = document.getElementById("remove_button");
@@ -14,34 +12,20 @@ const findButton = document.getElementById("find_button");
 const cancelFindButton = document.getElementById("cancel_find_button");
 const findInput = document.getElementById("find_input");
 
-
 let cats = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadCatsFromLocalStorage();
-});
+export const refetchAllCats = async () => {
+  const allCats = await getAllCats();
 
-const loadCatsFromLocalStorage = () => {
-  const savedCats = localStorage.getItem("cats");
-  if (savedCats) {
-    cats = JSON.parse(savedCats);
-    renderItemsList(cats);
-  }
-};
-
-
-removeButton.addEventListener("click", () => {
-  const cats1 = cats.filter((cat) => cat.title.search(removeInput.value) === -1);
-
-  cats = cats1;
-
-  localStorage.setItem("cats", JSON.stringify(cats));
-
-  removeInput.value = "";
+  cats = allCats;
 
   renderItemsList(cats);
-});
+};
 
+removeButton.addEventListener("click", () => {
+  deleteCat(removeInput.value).then(refetchAllCats);
+  removeInput.value = "";
+});
 
 findButton.addEventListener("click", () => {
   const foundCats = cats.filter(cats => cats.title.search(findInput.value) !== -1);
@@ -77,7 +61,4 @@ countButton.addEventListener("click", () => {
   countInput.value = "";
 });
 
-
-window.addEventListener("load", loadCatsFromLocalStorage);
-
-renderItemsList(cats);
+refetchAllCats();

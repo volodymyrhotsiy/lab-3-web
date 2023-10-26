@@ -1,7 +1,7 @@
 const titleInput = document.getElementById("title_input");
 const descriptionInput = document.getElementById("description_input");
 const itemsContainer = document.getElementById("items_container");
-const ageInput = document.getElementById("age_input")
+const ageInput = document.getElementById("age_input");
 
 // local functions
 const itemTemplate = ({ id, title, age, desc }) => `
