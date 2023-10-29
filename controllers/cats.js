@@ -25,20 +25,22 @@ export const deleteCat = (req, res) => {
 
 export const editCat = (req, res) => {
     const { id } = req.params;
+    const { title, age, desc } = req.body;
 
-    cat = cats.find((cat) => cat.id === id);
+    const cat = cats.find((cat) => cat.id === id);
 
-    if (name) {
-        cat.name = name;
+    if (cat) {
+        if (title) {
+            cat.title = title;
+        }
+        if (age) {
+            cat.age = age;
+        }
+        if (desc) {
+            cat.desc = desc;
+        }
+        res.send('Done!');
+    } else {
+        res.status(404).send('Cat not found');
     }
-    if (age) {
-        cat.age = age;
-    }
-    if (desc) {
-        cat.desc = desc;
-    }
-
-    const { name, age, desc } = req.body;
-
-    res.send('Done!');
 }

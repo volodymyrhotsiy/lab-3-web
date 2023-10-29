@@ -10,9 +10,10 @@ const itemTemplate = ({ id, title, age, desc }) => `
     src="https://i.pinimg.com/736x/97/d0/2a/97d02ad83bbf9161f2a4d73ff8b95195.jpg"
     class="item-container__image card-img-top" alt="card">
   <div class="card-body">
+    <h5 calss="card_id">Id: ${id}</h5>
     <h5 class="card-title">Name: ${title}</h5>
     <p class="card-text">Age: ${age}<p/>
-    <p class="card-text">Desc: ${desc}</p>
+    <p class="card-text">Desc: ${desc}</p> 
   </div>
 </li>`;
 
